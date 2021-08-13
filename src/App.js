@@ -6,29 +6,30 @@ function App() {
 
   const BASE_URL = 'https://randomuser.me/api/?results=20'
 
-  const [dataHolder, setDataHolder] = useState('')
+  const [users, setUsers] = useState([])
 
   const fetchData = () => {
     return axios.get(BASE_URL)
       .then(({ data }) => {
-        console.log(data.results)
         return data.results
       })
       .catch((err) => {
-        console.log(err)
+        console.error(err)
       })
   }
 
   useEffect(() => {
-    const data = fetchData()
-    console.log(data)
-    setDataHolder(JSON.stringify(data))
+    fetchData()
+      .then((data) => {
+        setUsers(data)
+      })
   }, [])
+
+  console.log(users)
 
   return (
     <div className="App">
       <h1>Interview</h1>
-      <p>{dataHolder}</p>
     </div>
   );
 }
